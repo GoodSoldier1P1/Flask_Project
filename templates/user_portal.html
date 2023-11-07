@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block styles %}
+    <link rel="stylesheet" href="../static/portal.css">
+{% endblock %}
+
+{% block content %}
+
+<form method="POST" class="catch">
+    <div>
+        <label for="name" class="poke-name">Enter Poke Name: </label>
+        <input type="text" class="form-input" id="name" placeholder="golduck" name="name">
+    </div>
+    <button type="submit" class="button">Catch it!</button>
+</form>
+{% if all_poke %}
+<div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <img src="{{ all_poke['sprite'] }}" alt="" class="sprite">
+    <h6 class="card-text">{{ all_poke['name'] }}</h6>
+      <p>{{ all_poke['type'] }}</p>
+  </div>
+</div>
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Poke Name</th>
+        <th scope="col">First Ability</th>
+        <th scope="col">Base Health Points</th>
+        <th scope="col">Base Attack</th>
+        <th scope="col">Base Defense</th>
+        <th scope="col"></th> {# keeping the empty col and rows for background spacing #}
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr>
+        <th scope="row">{{ all_poke['name'] }}</th>
+        <td>{{ all_poke['ability'] }}</td>
+        <td>{{ all_poke['HP_base'] }}</td>
+        <td>{{ all_poke['ATK_base'] }}</td>
+        <td>{{ all_poke['DEF_base'] }}</td>
+        <td></td>
+      </tr>
+
+    </tbody>
+  </table>
+
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Ability 1</th>
+        <th scope="col">Ability 2</th>
+        <th scope="col"></th>{# Had a 3rd ability, but not all Pokemon have 3 and it was throwing an error if they only had two #}
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr>
+        <th scope="row">{{ all_poke['ability'] }}</th>
+        <td>{{ all_poke['ability_2'] }}</td>
+        <td></td>
+        <td></td>
+      </tr>
+
+    </tbody>
+  </table>
+{% endif %}
+{% endblock %}

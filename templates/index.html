@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block styles %}
+
+    <link rel="stylesheet" href="../static/index.css">
+
+{% endblock %}
+
+{% block content %}
+
+<h1> Welcome to GoodSoldier's Poke DataBase! </h1>
+<h2> Here you will be able to create your own team, as well as battle others! </h2>
+
+<form method="POST">
+    <div>
+        <label for="username" class="form-label">Username</label>
+        <input type="text" name="username" id="username" class="form-input" placeholder="Enter your Username...">
+    </div>
+    <div>
+        <label for="password" class="form-label">Password</label>
+        <input type="password" name="password" id="password" class="password form-input" placeholder="Enter your Password...">
+    </div>
+    <button type="submit" class="button">Submit</button>
+</form>
+
+{% endblock %}
