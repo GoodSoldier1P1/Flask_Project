@@ -23,6 +23,10 @@ REGISTERED_USERS = {
     'danielamyx859@gmail.com': {
         'name': 'Daniel Amyx',
         'password': 'Isaac2023'
+    },
+    'dkatina@gmail.com': {
+        'name': 'Dylan Katina',
+        'password': 'test'
     }
 }
 
