@@ -1,7 +1,7 @@
 from flask import request, render_template, redirect
 import requests
 from app import app
-from app.forms import LoginForm
+from app.forms import LoginForm, SignupForm, PokeSelect
 
 @app.route('/', methods=['GET', 'POST'])
 def poke_home():
@@ -18,6 +18,24 @@ def poke_home():
         return render_template('index.html', form=form)
     
 
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    form = SignupForm()
+
+    if request.method == 'POST' and form.validate_on_submit():
+        full_name = f"{form.first_name.data} {form.last_name.data}"
+        email = form.email.data
+        password = form.password.data
+
+        REGISTERED_USERS[email] = {
+            'name': full_name,
+            'password': password
+        }
+
+        return redirect('/')
+    else:
+        return render_template('signup.html', form=form)
+
 
 REGISTERED_USERS = {
     'danielamyx859@gmail.com': {
@@ -32,6 +50,7 @@ REGISTERED_USERS = {
 
 @app.route('/portal', methods=['GET', 'POST'])
 def poke_data():
+
     if request.method == 'POST':
         name = request.form.get('name')
 
@@ -53,6 +72,12 @@ def poke_data():
             all_poke = poke_dict
             return render_template('user_portal.html', all_poke=all_poke)
         except IndexError:
-            return 'Please enter a valid poke name (or number)'
+            return redirect('/bug')
     else:
         return render_template('user_portal.html')
+    
+
+
+@app.route('/bug')
+def found_bug():
+    return render_template('foundbug.html')

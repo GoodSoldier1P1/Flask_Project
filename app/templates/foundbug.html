@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block styles %}
+    <link rel="stylesheet" href="../static/foundbug.css">
+{% endblock %}
+
+{% block content %}
+
+    <div>
+        <h1>
+            Oi, you found a bug! <br> I am working to fix this! <br> Please try again soon!
+        </h1>
+    </div>
+    <button><a href="/portal">Return to your Portal</a></button> 
+
+    <div><br>
+        <p>
+            Should this problem persist, I would appreciate it if you could report it <a href='https://discord.gg/Gqf3v9kTUC' target="_blank">here</a>.
+        </p>
+    </div>
+
+{% endblock %}

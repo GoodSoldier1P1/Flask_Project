@@ -5,13 +5,15 @@
 {% endblock %}
 
 {% block content %}
-{% include './includes/nav.html' %}
+{% include './includes/portalnav.html' %}
 
 <form method="POST" class="catch">
+
+
     <div>
-        <label for="name" class="poke-name">Enter Poke Name: </label>
-        <input type="text" class="form-input" id="name" placeholder="golduck" name="name">
-    </div>
+        <label for="name" class="poke-name">Enter the name or number of a Pokemon:   </label>
+        <input type="text" class="form-input" id="name" placeholder="golduck" name="name"> <br> Shiny versions are shown if available. 
+        </div><br>
     <button type="submit" class="button">Catch it!</button>
 </form>
 {% if all_poke %}
