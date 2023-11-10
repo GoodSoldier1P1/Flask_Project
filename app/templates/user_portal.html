@@ -9,12 +9,13 @@
 
 <form method="POST" class="catch">
 
+      {{ form.hidden_tag() }}
 
     <div>
-        <label for="name" class="poke-name">Enter the name or number of a Pokemon:   </label>
-        <input type="text" class="form-input" id="name" placeholder="golduck" name="name"> <br> Shiny versions are shown if available. 
+        <label for="pname" class="poke-name">Enter the name or number of a Pokemon:   </label> 
+        {{ form.poke_name(class="form-input", id="pname", placeholder="golduck") }}
         </div><br>
-    <button type="submit" class="button">Catch it!</button>
+    {{ form.submit_btn(class="button") }}
 </form>
 {% if all_poke %}
 <div class="card" style="width: 18rem;">

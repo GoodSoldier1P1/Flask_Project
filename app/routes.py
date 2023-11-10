@@ -1,7 +1,10 @@
-from flask import request, render_template, redirect
+from flask import request, render_template, redirect, url_for, flash
 import requests
 from app import app
 from app.forms import LoginForm, SignupForm, PokeSelect
+from app.models import User, db
+from werkzeug.security import check_password_hash
+from flask_login import login_user, logout_user, current_user, login_required
 
 @app.route('/', methods=['GET', 'POST'])
 def poke_home():
@@ -10,8 +13,11 @@ def poke_home():
         email = form.email.data
         password = form.password.data
 
-        if email in REGISTERED_USERS and REGISTERED_USERS[email]['password'] == password:
-            return redirect('/portal')
+        queried_user = User.query.filter(User.email == email).first()
+        if queried_user and check_password_hash(queried_user.password, password):
+            login_user(queried_user)
+            flash(f"Hello, {queried_user.first_name}!", 'success')
+            return redirect(url_for('poke_data'))
         else:
             return "Invalid email or password"
     else:
@@ -23,41 +29,46 @@ def signup():
     form = SignupForm()
 
     if request.method == 'POST' and form.validate_on_submit():
-        full_name = f"{form.first_name.data} {form.last_name.data}"
+        first_name = form.first_name.data
+        last_name = form.last_name.data
         email = form.email.data
         password = form.password.data
 
-        REGISTERED_USERS[email] = {
-            'name': full_name,
-            'password': password
-        }
+        #create an instance of our user class
+        user = User(first_name, last_name, email, password)
 
-        return redirect('/')
+        # add user to database
+        db.session.add(user)
+        db.session.commit()
+
+        flash(f"Thank you for signing up {first_name}!", 'success')
+        return redirect(url_for('poke_home'))
     else:
         return render_template('signup.html', form=form)
 
 
-REGISTERED_USERS = {
-    'danielamyx859@gmail.com': {
-        'name': 'Daniel Amyx',
-        'password': 'Isaac2023'
-    },
-    'dkatina@gmail.com': {
-        'name': 'Dylan Katina',
-        'password': 'test'
-    }
-}
+@app.route('/logout')
+@login_required
+def logout():
+    flash("Successfully logged out!" 'warning')
+    logout_user()
+    return redirect(url_for('poke_home'))
+
+
 
 @app.route('/portal', methods=['GET', 'POST'])
 def poke_data():
-
+    form = PokeSelect()
     if request.method == 'POST':
-        name = request.form.get('name')
+
+        name = form.poke_name.data
 
         url = f'https://pokeapi.co/api/v2/pokemon/{name}'
         response = requests.get(url)
         data = response.json()
         try:
+
+
             poke_dict = {
                 'name': data['forms'][0]['name'].title(),
                 'ability': data['abilities'][0]['ability']['name'].title(),
@@ -70,11 +81,11 @@ def poke_data():
                 'type': data['types'][0]['type']['name'].title()
         }
             all_poke = poke_dict
-            return render_template('user_portal.html', all_poke=all_poke)
+            return render_template('user_portal.html', all_poke=all_poke, form=form)
         except IndexError:
             return redirect('/bug')
     else:
-        return render_template('user_portal.html')
+        return render_template('user_portal.html', form=form)
     
 
 

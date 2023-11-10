@@ -11,7 +11,13 @@
       <img src="/static/images/efff65ee37b35ea3b4df426ad32b1097.jpg" alt="Logo" width="40" height="34" class="d-inline-block align-text-top pokedex">
       GoodSoldier1P1_7, guiding you on the journey to your team's synergy!
     </a>
-    <button class="signup-btn"><a href="/signup">Sign Up</a></button>
+    <div>
+      {% if current_user.is_authenticated %}
+        {{ current_user }}
+        <a href="{{url_for('logout')}}">Logout</a>
+      {% endif %}
+    </div>
+    <button class="signup-btn"><a href="{{ url_for('signup') }}">Sign Up</a></button>
   </div>
   <div>
     
