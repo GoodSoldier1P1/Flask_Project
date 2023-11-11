@@ -30,7 +30,6 @@
     <thead>
       <tr>
         <th scope="col">Poke Name</th>
-        <th scope="col">First Ability</th>
         <th scope="col">Base Health Points</th>
         <th scope="col">Base Attack</th>
         <th scope="col">Base Defense</th>
@@ -41,7 +40,6 @@
 
       <tr>
         <th scope="row">{{ all_poke['name'] }}</th>
-        <td>{{ all_poke['ability'] }}</td>
         <td>{{ all_poke['HP_base'] }}</td>
         <td>{{ all_poke['ATK_base'] }}</td>
         <td>{{ all_poke['DEF_base'] }}</td>
@@ -55,22 +53,35 @@
   <table class="table">
     <thead>
       <tr>
-        <th scope="col">Ability 1</th>
-        <th scope="col">Ability 2</th>
+        <th scope="col">Abilities</th>
+        <th scope="col"></th>
         <th scope="col"></th>{# Had a 3rd ability, but not all Pokemon have 3 and it was throwing an error if they only had two #}
         <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
-
       <tr>
-        <th scope="row">{{ all_poke['ability'] }}</th>
-        <td>{{ all_poke['ability_2'] }}</td>
-        <td></td>
-        <td></td>
-      </tr>
+        {% for ability_key, ability_data in all_poke.items() if 'ability' in ability_key %}
+          <th scope="row">
+            {{ ability_data['name']  }}  :
+            {{ ability_data['description'] }}
+          </th>
+          <td>
+          </td>
+          
+          <td>
+          </td>
+          
+          <td></td>
+        </tr>
+        {% endfor %}
 
     </tbody>
   </table>
+
+  <form class="team_btn" method="'POST" action="{{ url_for('add_to_team', pokemon_name=all_poke.name) }}">
+    <button type="submit">Add to Team</button>
+  </form>
+
 {% endif %}
 {% endblock %}

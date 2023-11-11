@@ -13,13 +13,9 @@
     </a>
     <div>
       {% if current_user.is_authenticated %}
-        {{ current_user }}
-        <a href="{{url_for('logout')}}">Logout</a>
+        {{ username }}
+        {# <a href="{{url_for('logout')}}">Logout</a> #}
       {% endif %}
     </div>
-    <button class="signup-btn"><a href="{{ url_for('signup') }}">Sign Up</a></button>
-  </div>
-  <div>
-    
   </div>
 </nav>

@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import PickleType
 from datetime import datetime
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash
@@ -13,6 +14,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String, nullable=False)
     created_on = db.Column(db.DateTime, default=datetime.utcnow())
+    team = db.Column(db.PickleType, default=list)
 
     def __init__(self, first_name, last_name, email, password):
         self.first_name = first_name
