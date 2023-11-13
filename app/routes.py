@@ -110,7 +110,7 @@ def add_to_team(pokemon_name):
     current_user.team.append(pokemon_name)
     db.session.commit()
 
-    flash(f"{pokemon_name} added to your team!, 'success")
+    flash(f"{pokemon_name} added to your team!", 'success')
     return redirect(url_for('poke_data'))
 
 

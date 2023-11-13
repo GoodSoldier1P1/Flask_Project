@@ -51,3 +51,18 @@ form {
     padding: 5px;
     background-color: #f4d570;
 }
+
+.logout{
+    border-right: 1px solid black;
+}
+
+.team-link{
+    margin-left: 5px;
+}
+
+.team-add{
+    background-color: #f4d570;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 50%;
+}
