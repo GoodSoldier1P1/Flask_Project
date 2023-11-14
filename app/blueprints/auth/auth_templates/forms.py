@@ -15,14 +15,3 @@ class SignupForm(FlaskForm):
     password = PasswordField('Password ', validators=[DataRequired()])
     comfirm_password = PasswordField('Comfirm Password ', validators=[DataRequired(), EqualTo('password')])
     submit_btn = SubmitField('Sign Up ')
-
-class PokeSelect(FlaskForm):
-    poke_name = StringField('Poke Name or Number', validators=[DataRequired()])
-    submit_btn = SubmitField('Catch it!')
-
-
-class PostForm(FlaskForm):
-    title = StringField('Title: ')
-    caption = StringField('Caption')
-    img_url = StringField('Image URL:  ', validators=[DataRequired()])
-    submit_btn = SubmitField('Create Post')

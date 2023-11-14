@@ -2,9 +2,11 @@ from flask import request, render_template, redirect, url_for, flash
 import requests
 from app import app
 from app.forms import LoginForm, SignupForm, PokeSelect
-from app.models import User, db
+from app.models import User, db, PostForm
 from werkzeug.security import check_password_hash
 from flask_login import login_user, logout_user, current_user, login_required
+
+
 
 @app.route('/', methods=['GET', 'POST'])
 def poke_home():
@@ -35,7 +37,7 @@ def signup():
         password = form.password.data
 
         #create an instance of our user class
-        user = User(first_name, last_name, email, password, team=[] if user.team is None else user.team)
+        user = User(first_name, last_name, email, password)
 
         # add user to database
         db.session.add(user)
@@ -53,7 +55,6 @@ def logout():
     flash("Successfully logged out!", 'warning')
     logout_user()
     return redirect(url_for('poke_home'))
-
 
 
 @app.route('/portal', methods=['GET', 'POST'])
@@ -103,13 +104,6 @@ def poke_data():
 
 @app.route('/add_to_team/<pokemon_name>', methods=['GET', 'POST'])
 def add_to_team(pokemon_name):
-    if current_user.team is None:
-        current_user.team=[]
-
-
-    current_user.team.append(pokemon_name)
-    db.session.commit()
-
     flash(f"{pokemon_name} added to your team!", 'success')
     return redirect(url_for('poke_data'))
 
@@ -122,3 +116,28 @@ def found_bug():
 @login_required
 def user_team():
     return render_template('user_team.html', username=current_user.first_name)
+
+
+
+@app.route('/create_post', methods=['GET', 'POST'])
+@login_required
+def create_post():
+    form = PostForm()
+
+    if request.method == 'POST' and form.validate_on_submit():
+        title = form.title.data
+        caption = form.caption.data
+        img_url = form.img_url.data
+        user_id = current_user.id
+
+        #create an instance of our post class
+        post = Post(title, caption, img_url, user_id)
+
+        # add user to database
+        db.session.add(post)
+        db.session.commit()
+
+        flash(f"Post {title} successfully created!", 'success')
+        return redirect(url_for('feed'))
+    else:
+        return render_template('signup.html', form=form)
