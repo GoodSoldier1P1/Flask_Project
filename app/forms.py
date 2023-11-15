@@ -20,9 +20,3 @@ class PokeSelect(FlaskForm):
     poke_name = StringField('Poke Name or Number', validators=[DataRequired()])
     submit_btn = SubmitField('Catch it!')
 
-
-class PostForm(FlaskForm):
-    title = StringField('Title: ')
-    caption = StringField('Caption')
-    img_url = StringField('Image URL:  ', validators=[DataRequired()])
-    submit_btn = SubmitField('Create Post')
