@@ -62,15 +62,21 @@ def poke_data():
     
 
 @main.route('/add_to_team/<pokemon_name>', methods=['GET', 'POST'])
+@login_required
 def add_to_team(pokemon_name):
+
+    print(f"Pokemon Name: {pokemon_name}")
 
     user_id = current_user.id
 
     trainer = User.query.get(user_id)
-    poke = Pokemon.query.get(pokemon_name)
+    print(trainer)
+    poke = Pokemon.query.filter_by(poke_id=pokemon_name.lower()).first()
+    print(poke)
 
     if trainer and poke:
-        if len(trainer.team) < 6:
+        if len(trainer.team.all()) < 6:
+            print('Do It')
             trainer.team.append(poke)
 
             db.session.commit()
@@ -78,8 +84,10 @@ def add_to_team(pokemon_name):
             flash(f"{pokemon_name} added to your team!", 'success')
         
         else:
+            print("Don't Do It")
             flash("Your team is already full (6 Pokemon Max), 'danger")
     else:
+        print("Can't Do It")
         flash("User or Pokemon not found", 'danger')
 
     return redirect(url_for('main.poke_data'))
