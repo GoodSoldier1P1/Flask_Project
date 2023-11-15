@@ -75,7 +75,7 @@ def add_to_team(pokemon_name):
     print(poke)
 
     if trainer and poke:
-        if len(trainer.team.all()) < 6:
+        if len(trainer.team.all()) < 6 and poke not in trainer.team:
             print('Do It')
             trainer.team.append(poke)
 
@@ -85,7 +85,7 @@ def add_to_team(pokemon_name):
         
         else:
             print("Don't Do It")
-            flash("Your team is already full (6 Pokemon Max), 'danger")
+            flash("Your team is already full (6 Pokemon Max) OR Pokemon is already on your team", 'danger')
     else:
         print("Can't Do It")
         flash("User or Pokemon not found", 'danger')
