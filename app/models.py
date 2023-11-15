@@ -9,7 +9,7 @@ db = SQLAlchemy()
 
 added_to_team = db.Table(
     'added_to_team',
-    db.Column('poke_id', db.Integer, db.ForeignKey('pokemon.poke_id')),
+    db.Column('poke_id', db.String, db.ForeignKey('pokemon.poke_id')),
     db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
 )
 
@@ -35,7 +35,7 @@ class User(db.Model, UserMixin):
 
 
 class Pokemon(db.Model):
-    poke_id = db.Column(db.Integer, primary_key=True)
+    poke_id = db.Column(db.String, primary_key=True)
 
     def __init__(self, poke_id):
         self.poke_id = poke_id

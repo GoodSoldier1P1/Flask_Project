@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 import requests
 from flask import render_template, request, redirect, url_for, flash
 from app.forms import PokeSelect
-from app.models import Pokemon, db
+from app.models import Pokemon, db, User
 
 
 
@@ -18,15 +18,11 @@ def poke_data():
         poke = Pokemon.query.filter_by(poke_id=name).first()
 
         if poke:
-            return render_template('user_portal.html', poke=poke, form=form)
-        else:
 
             url = f'https://pokeapi.co/api/v2/pokemon/{name}'
             response = requests.get(url)
             data = response.json()
             try:
-
-
                 poke_dict = {
                     'name': data['forms'][0]['name'].title(),
                     'base_experience': data['base_experience'],
@@ -36,8 +32,6 @@ def poke_data():
                     'DEF_base': data['stats'][2]['base_stat'],
                     'type': data['types'][0]['type']['name'].title()
             }
-
-
                 abilities = data['abilities']
                 for i, ability in enumerate(abilities):
                     ability_url = ability['ability']['url']
@@ -49,24 +43,45 @@ def poke_data():
                         'description': ability_data['effect_entries'][1]['effect']
                     }
 
-
                 all_poke = poke_dict
+
+                return render_template('user_portal.html', all_poke=all_poke, form=form, username=current_user.first_name)
+            except IndexError:
+                return redirect('/bug')
+        
+        else:
 
                 new_poke = Pokemon(poke_id=name)
                 
                 db.session.add(new_poke)
                 db.session.commit()
 
-                return render_template('user_portal.html', all_poke=all_poke, form=form, username=current_user.first_name)
-            except IndexError:
-                return redirect('/bug')
+
     else:
         return render_template('/user_portal.html', form=form, username=current_user.first_name)
     
 
 @main.route('/add_to_team/<pokemon_name>', methods=['GET', 'POST'])
 def add_to_team(pokemon_name):
-    flash(f"{pokemon_name} added to your team!", 'success')
+
+    user_id = current_user.id
+
+    trainer = User.query.get(user_id)
+    poke = Pokemon.query.get(pokemon_name)
+
+    if trainer and poke:
+        if len(trainer.team) < 6:
+            trainer.team.append(poke)
+
+            db.session.commit()
+    
+            flash(f"{pokemon_name} added to your team!", 'success')
+        
+        else:
+            flash("Your team is already full (6 Pokemon Max), 'danger")
+    else:
+        flash("User or Pokemon not found", 'danger')
+
     return redirect(url_for('main.poke_data'))
 
 
