@@ -17,7 +17,7 @@ def poke_home():
         if queried_user and check_password_hash(queried_user.password, password):
             login_user(queried_user)
             flash(f"Hello, {queried_user.first_name}!", 'success')
-            return redirect(url_for('auth.poke_data'))
+            return redirect(url_for('main.poke_data'))
         else:
             return "Invalid email or password"
     else:

@@ -21,7 +21,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String, nullable=False)
     created_on = db.Column(db.DateTime, default=datetime.utcnow())
-    team = db.relationship('User',
+    team = db.relationship('Pokemon',
                            secondary = (added_to_team),
                            backref = 'trainer',
                            lazy = 'dynamic'
