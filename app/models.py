@@ -39,3 +39,4 @@ class Pokemon(db.Model):
 
     def __init__(self, poke_id):
         self.poke_id = poke_id
+

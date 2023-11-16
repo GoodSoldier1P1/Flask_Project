@@ -100,4 +100,22 @@ def found_bug():
 @main.route('/team')
 @login_required
 def user_team():
-    return render_template('user_team.html', username=current_user.first_name)
+    
+    pokemons = current_user.team.all()
+
+    poke_names = [pokemon.poke_id for pokemon in pokemons]
+    
+    return render_template('user_team.html', poke_names=poke_names)
+
+
+@main.route('/delete/<string:poke_name>', methods=['POST'])
+@login_required
+def remove_pokemon(poke_name):
+    pokemon = Pokemon.query.filter_by(poke_id=poke_name).first()
+
+    if pokemon:
+        add_to_team.poke_id.remove(pokemon)
+        db.session.commit()
+    else:
+        flash(f"{pokemon} has been released!")
+        return redirect(url_for('main.user_team'))
