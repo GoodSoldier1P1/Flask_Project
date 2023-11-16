@@ -97,13 +97,15 @@ def add_to_team(pokemon_name):
 def found_bug():
     return render_template('foundbug.html')
 
-@main.route('/team')
+@main.route('/team', methods=['GET', 'POST'])
 @login_required
 def user_team():
     
     pokemons = current_user.team.all()
+    print(pokemons)
 
     poke_names = [pokemon.poke_id for pokemon in pokemons]
+    print(poke_names)
     
     return render_template('user_team.html', poke_names=poke_names)
 
@@ -113,8 +115,10 @@ def user_team():
 def remove_pokemon(poke_name):
     pokemon = Pokemon.query.filter_by(poke_id=poke_name).first()
 
-    if pokemon:
-        add_to_team.poke_id.remove(pokemon)
+    if pokemon and current_user.id == add_to_team.user_id:
+        print(pokemon)
+        print(current_user.id)
+        current_user.team.delete(pokemon)
         db.session.commit()
     else:
         flash(f"{pokemon} has been released!")

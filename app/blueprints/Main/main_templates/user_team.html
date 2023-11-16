@@ -24,16 +24,17 @@
 
     {% if poke_names %}
         {% for poke in poke_names %}
-      <tr>
-        <th scope="row">{{ poke.title() }} </th>
-        <td>
-            <a href="{{ url_for('main.user_team', poke_name=poke.poke_id) }}" class="btn btn-danger">Release</a>
-        </td> {# DELETE BUTTON #}
-        <td>{# Used to scale background #}</td>
-        <td>{# Used to scale background #}</td>
-        <td>{# Used to scale background #}</td>
-      </tr>
-      {% endfor %}
+          <tr>
+            <th scope="row">{{ poke.title() }} </th>
+            <td>
+              <a href="{{ url_for('main.user_team', poke_name=poke.poke_id) }}" class="btn btn-danger">Release</a>
+            </form>
+            </td> {# DELETE BUTTON #}
+            <td>{# Used to scale background #}</td>
+            <td>{# Used to scale background #}</td>
+            <td>{# Used to scale background #}</td>
+          </tr>
+        {% endfor %}
       
       {% endif %}
     </tbody>
