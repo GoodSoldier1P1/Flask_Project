@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 import requests
 from flask import render_template, request, redirect, url_for, flash
 from app.forms import PokeSelect
-from app.models import Pokemon, db, User
+from app.models import Pokemon, db, User, added_to_team
 
 
 
@@ -103,23 +103,30 @@ def user_team():
     
     pokemons = current_user.team.all()
     print(pokemons)
+    print('user')
 
     poke_names = [pokemon.poke_id for pokemon in pokemons]
     print(poke_names)
+    print('user')
     
     return render_template('user_team.html', poke_names=poke_names)
 
 
-@main.route('/delete/<string:poke_name>', methods=['POST'])
+@main.route('/delete/<string:poke_name>', methods=['GET', 'POST'])
 @login_required
 def remove_pokemon(poke_name):
     pokemon = Pokemon.query.filter_by(poke_id=poke_name).first()
+    print('before delete if')
+    print(pokemon)
 
-    if pokemon and current_user.id == add_to_team.user_id:
-        print(pokemon)
+    if pokemon and current_user.id == current_user.team.first():
+        print('delete if')
         print(current_user.id)
         current_user.team.delete(pokemon)
         db.session.commit()
+        return redirect(url_for('main.user_team'))
     else:
+        print('delete else')
+        print("How About No")
         flash(f"{pokemon} has been released!")
         return redirect(url_for('main.user_team'))
