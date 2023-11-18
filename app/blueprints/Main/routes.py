@@ -4,6 +4,7 @@ import requests
 from flask import render_template, request, redirect, url_for, flash
 from app.forms import PokeSelect
 from app.models import Pokemon, db, User, added_to_team
+from sqlalchemy.sql.expression import func
 
 
 
@@ -14,11 +15,32 @@ def poke_data():
 
     if request.method == 'POST':
 
-        name = form.poke_name.data
-        poke = Pokemon.query.filter_by(poke_id=name).first()
-
+        name = form.poke_name.data.lower()
+        print("Name: ", name)
+        poke = Pokemon.query.filter(Pokemon.poke_id.ilike(name)).first()
+        print("Poke: ", poke)
+        print("This is how we do it")
+    
         if poke:
+            print("running IF")
 
+            all_poke = {
+                'name': poke.poke_id,
+                'base_experience': poke.base_xp,
+                'sprite': poke.sprite,
+                'ATK_base': poke.attack,
+                'HP_base': poke.hp,
+                'DEF_base': poke.defense,
+                'type': poke.poke_type.title(),
+                'ability_1': {
+                    'name': poke.ability,
+                    'description': poke.ability_description
+                }
+            }
+
+            return render_template('/user_portal.html', all_poke=all_poke, form=form, username=current_user.first_name)
+        else:
+            print("Running ELSE")
             url = f'https://pokeapi.co/api/v2/pokemon/{name}'
             response = requests.get(url)
             data = response.json()
@@ -42,20 +64,34 @@ def poke_data():
                         'name': ability_data['name'].title(),
                         'description': ability_data['effect_entries'][1]['effect']
                     }
+                    
+                    print('This is i')
+                    print(i)
+                    print('This is ability')
+                    print(ability)
 
                 all_poke = poke_dict
 
-                return render_template('user_portal.html', all_poke=all_poke, form=form, username=current_user.first_name)
-            except IndexError:
-                return redirect('/bug')
-        
-        else:
+                # ability_key = poke_dict['ability_1']['name'][2]
 
-                new_poke = Pokemon(poke_id=name)
+                print(poke_dict)
+
+                new_poke = Pokemon(poke_id=poke_dict['name'], 
+                                sprite=poke_dict['sprite'],
+                                poke_type=poke_dict['type'],
+                                ability=ability_data['name'], 
+                                ability_description=ability_data['effect_entries'][1]['effect'],
+                                hp=poke_dict['HP_base'],
+                                defense=poke_dict['DEF_base'], 
+                                attack=poke_dict['ATK_base'],
+                                base_xp=poke_dict['base_experience'])
                 
                 db.session.add(new_poke)
                 db.session.commit()
 
+                return render_template('user_portal.html', all_poke=all_poke, form=form, username=current_user.first_name)
+            except IndexError:
+                return redirect('/bug')
 
     else:
         return render_template('/user_portal.html', form=form, username=current_user.first_name)
@@ -64,6 +100,10 @@ def poke_data():
 @main.route('/add_to_team/<pokemon_name>', methods=['GET', 'POST'])
 @login_required
 def add_to_team(pokemon_name):
+    if request.method == 'POST':
+        debug_pokemon_name = request.form.get('debug_pokemon_name')
+        print(f"Received Pokemon Name: {pokemon_name}")
+        print(f"Debug Pokemon Name: {debug_pokemon_name}")
 
     print(f"Pokemon Name: {pokemon_name}")
 
@@ -71,7 +111,7 @@ def add_to_team(pokemon_name):
 
     trainer = User.query.get(user_id)
     print(trainer)
-    poke = Pokemon.query.filter_by(poke_id=pokemon_name.lower()).first()
+    poke = Pokemon.query.filter(Pokemon.poke_id.ilike(pokemon_name)).first()
     print(poke)
 
     if trainer and poke:
@@ -88,6 +128,7 @@ def add_to_team(pokemon_name):
             flash("Your team is already full (6 Pokemon Max) OR Pokemon is already on your team", 'danger')
     else:
         print("Can't Do It")
+        print(poke)
         flash("User or Pokemon not found", 'danger')
 
     return redirect(url_for('main.poke_data'))
@@ -115,14 +156,15 @@ def user_team():
 @main.route('/delete/<string:poke_name>', methods=['GET', 'POST'])
 @login_required
 def remove_pokemon(poke_name):
+    print(poke_name)
     pokemon = Pokemon.query.filter_by(poke_id=poke_name).first()
     print('before delete if')
     print(pokemon)
 
-    if pokemon and current_user.id == current_user.team.first():
+    if pokemon:
         print('delete if')
         print(current_user.id)
-        current_user.team.delete(pokemon)
+        current_user.team.remove(pokemon)
         db.session.commit()
         return redirect(url_for('main.user_team'))
     else:
@@ -130,3 +172,37 @@ def remove_pokemon(poke_name):
         print("How About No")
         flash(f"{pokemon} has been released!")
         return redirect(url_for('main.user_team'))
+    
+
+@main.route('/battle')
+@login_required
+def battle():
+
+    random_user = User.query.order_by(func.random()).first()
+    print("\n", random_user)
+
+    pokemons = current_user.team.all()
+    print("\nPokemon: ", pokemons)
+
+    poke_names = [pokemon.poke_id for pokemon in pokemons]
+    print("\nPoke Names: ", poke_names)
+    
+    
+    poke = Pokemon.query.filter(Pokemon.poke_id.ilike(poke_names[0])).first()
+
+
+    all_poke = {
+                'name': poke.poke_id,
+                'base_experience': poke.base_xp,
+                'sprite': poke.sprite,
+                'ATK_base': poke.attack,
+                'HP_base': poke.hp,
+                'DEF_base': poke.defense,
+                'type': poke.poke_type.title(),
+                'ability_1': {
+                    'name': poke.ability,
+                    'description': poke.ability_description
+                }
+            }
+
+    return render_template('battle.html', poke_names=poke_names, all_poke=all_poke)

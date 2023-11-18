@@ -27,8 +27,8 @@
           <tr>
             <th scope="row">{{ poke.title() }} </th>
             <td>
-              <a href="{{ url_for('main.remove_pokemon', poke_name=poke.poke_id) }}" class="btn btn-danger">Release</a>
-            </form>
+              <a href="{{ url_for('main.remove_pokemon', poke_name=poke) }}" class="btn btn-danger">Release</a>
+            
             </td> {# DELETE BUTTON #}
             <td>{# Used to scale background #}</td>
             <td>{# Used to scale background #}</td>

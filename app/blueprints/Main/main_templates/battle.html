@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block styles %}
+<link rel="stylesheet" href="../static/battle.css">
+{% endblock %}
+
+{% block content %}
+{% include './includes/teamnav.html' %}
+
+
+
+<div class="container">
+    <div class="wspace1"></div>
+
+
+    <div class="wpace2"></div>
+
+
+    <div class="opponent">Insert jinja here for random users poke</div>
+
+
+    <div class="you">Insert jinja here for users poke</div>
+
+
+    <div class="user_sprite">
+
+        {% if all_poke %}
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <img src="{{ all_poke['sprite'] }}" alt="" class="sprite">
+                <h6 class="card-text">{{ all_poke['name'] }}</h6>
+                <p>{{ all_poke['type'] }}</p>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+
+
+    <div class="other_sprite">
+
+        {% if all_poke %}
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <img src="{{ all_poke['sprite'] }}" alt="" class="sprite">
+                <h6 class="card-text">{{ all_poke['name'] }}</h6>
+                <p>{{ all_poke['type'] }}</p>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+
+
+    <div class="stats">
+
+        {{ current_user.first_name }}
+
+    </div>
+
+
+    <div class="stats2">
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

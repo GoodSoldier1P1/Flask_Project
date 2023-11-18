@@ -1,0 +1,61 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color: rgb(46, 46, 46);
+}
+
+.container {
+    display: grid; 
+    grid-auto-columns: 1fr; 
+    grid-template-columns: 0.5fr 1.5fr 1.5fr 0.5fr; 
+    grid-template-rows: 0.3fr 0.9fr 2.8fr 0.7fr 0.3fr; 
+    gap: 5em 1em; 
+    grid-template-areas: 
+      "wspace1 wspace1 wspace1 wspace1"
+      "opponent opponent opponent opponent"
+      "stats user_sprite other_sprite stats2"
+      "you you you you"
+      "wpace2 wpace2 wpace2 wpace2"; 
+    align-items: stretch;
+  }
+  
+  .wspace1 { 
+    grid-area: wspace1; 
+    }
+  
+  .wpace2 { 
+    grid-area: wpace2; 
+    }
+  
+  .opponent { 
+    grid-area: opponent;
+    background-color: white;
+ }
+  
+  .you {
+    grid-area: you;
+    background-color: white;
+
+ }
+  
+  .user_sprite { 
+    grid-area: user_sprite;
+ }
+  
+  .other_sprite { 
+    grid-area: other_sprite; 
+}
+  
+  .stats { 
+    grid-area: stats; 
+    background-color: white;
+}
+  
+  .stats2 { 
+    grid-area: stats2; 
+    background-color: white;
+}
+  

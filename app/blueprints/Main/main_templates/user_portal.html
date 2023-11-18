@@ -12,7 +12,7 @@
       {{ form.hidden_tag() }}
 
     <div>
-        <label for="pname" class="poke-name">Enter the name or number of a Pokemon:   </label> 
+        <label for="pname" class="poke-name">Enter the name of the Pokemon you want to find:   </label> 
         {{ form.poke_name(class="form-input", id="pname", placeholder="golduck") }}
         </div><br>
     {{ form.submit_btn(class="button") }}
@@ -25,6 +25,11 @@
       <p>{{ all_poke['type'] }}</p>
   </div>
 </div>
+
+<form class="team_btn" method="POST" action="{{ url_for('main.add_to_team', pokemon_name=all_poke['name']) }}">
+  <input type="hidden" name="debug_pokemon_name" value="{{ all_poke['name'] }}">
+  <button type="submit" class="team-add">Add to Team</button>
+</form>
 
 <table class="table">
     <thead>
@@ -55,7 +60,7 @@
       <tr>
         <th scope="col">Abilities</th>
         <th scope="col"></th>
-        <th scope="col"></th>{# Had a 3rd ability, but not all Pokemon have 3 and it was throwing an error if they only had two #}
+        <th scope="col"></th>{# Had a 3rd ability... this comment was fixed with for loop below #}
         <th scope="col"></th>
       </tr>
     </thead>
@@ -79,9 +84,6 @@
     </tbody>
   </table>
 
-  <form class="team_btn" method="'POST" action="{{ url_for('main.add_to_team', pokemon_name=all_poke.name) }}">
-    <button type="submit" class="team-add">Add to Team</button>
-  </form>
 
 {% endif %}
 {% endblock %}

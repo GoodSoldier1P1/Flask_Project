@@ -9,11 +9,12 @@
   <div class="container-fluid">
     <a class="navbar-brand" href="/">
       <img src="/static/images/efff65ee37b35ea3b4df426ad32b1097.jpg" alt="Logo" width="40" height="34" class="d-inline-block align-text-top pokedex">
-      {{ username }}, this is where you find your team and battle others!
+      This is where you find your team and start battles others!
     </a>
     <div>
       {% if current_user.is_authenticated %}
         {{ username }}
+        <a href="{{ url_for('main.poke_data') }}">Search</a>
         <a href="{{url_for('auth.logout')}}">Logout</a>
       {% endif %}
     </div>

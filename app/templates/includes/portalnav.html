@@ -1,6 +1,6 @@
 {% block styles %}
 
-<link rel="stylesheet" href="../static/nav.css">
+<link rel="stylesheet" href="../static/portal.css">
 
 {% endblock %}
 
@@ -14,9 +14,9 @@
     <div>
       {% if current_user.is_authenticated %}
         {{ username }}
+        <a href="{{url_for('main.user_team')}}" class="team-link">Your Team </a>
         <a href="{{url_for('auth.logout')}}" class="logout">Logout </a>
-      {% endif %}
-      <a href="{{url_for('main.user_team')}}" class="team-link">Your Team </a>
+        {% endif %}
     </div>
   </div>
   <div>

@@ -2,6 +2,8 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash
+from sqlalchemy.sql.expression import func
+
 
 # create instance of database
 db = SQLAlchemy()
@@ -34,9 +36,28 @@ class User(db.Model, UserMixin):
         self.password = generate_password_hash(password)
 
 
+
+
+
 class Pokemon(db.Model):
     poke_id = db.Column(db.String, primary_key=True)
+    sprite = db.Column(db.String)
+    poke_type = db.Column(db.String)
+    ability = db.Column(db.String)
+    ability_description = db.Column(db.String)
+    hp = db.Column(db.Integer)
+    defense = db.Column(db.Integer)
+    attack = db.Column(db.Integer)
+    base_xp = db.Column(db.Integer)
 
-    def __init__(self, poke_id):
+    def __init__(self, poke_id, sprite, poke_type, ability, ability_description, hp, defense, attack, base_xp):
         self.poke_id = poke_id
+        self.sprite = sprite
+        self.poke_type = poke_type
+        self.ability = ability
+        self.ability_description = ability_description
+        self.hp = hp
+        self.defense = defense
+        self.attack = attack
+        self.base_xp = base_xp
 
