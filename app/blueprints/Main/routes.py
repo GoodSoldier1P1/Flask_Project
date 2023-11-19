@@ -4,7 +4,7 @@ import requests
 from flask import render_template, request, redirect, url_for, flash
 from app.forms import PokeSelect
 from app.models import Pokemon, db, User, added_to_team
-from sqlalchemy.sql.expression import func
+import random
 
 
 
@@ -174,35 +174,40 @@ def remove_pokemon(poke_name):
         return redirect(url_for('main.user_team'))
     
 
+
+
+
+
+current_index = 0
+
 @main.route('/battle')
 @login_required
 def battle():
 
-    random_user = User.query.order_by(func.random()).first()
-    print("\n", random_user)
+    user_id = current_user.id
 
-    pokemons = current_user.team.all()
-    print("\nPokemon: ", pokemons)
-
-    poke_names = [pokemon.poke_id for pokemon in pokemons]
-    print("\nPoke Names: ", poke_names)
+    pokemon_data = db.session.query(Pokemon).\
+        join(User.team).\
+        filter(User.id == user_id).all()
     
+
+    global current_index
+    current_pokemon = pokemon_data[current_index]
+
+    return render_template('battle.html', all_poke=current_pokemon)
+
+
+
+@main.route('/next_battle')
+@login_required
+def next_battle():
+    user_id = current_user.id 
+
+    pokemon_data = db.session.query(Pokemon).\
+        join(User.team).\
+        filter(User.id == user_id).all()
     
-    poke = Pokemon.query.filter(Pokemon.poke_id.ilike(poke_names[0])).first()
+    global current_index
+    current_index = (current_index + 1) % len(pokemon_data)
 
-
-    all_poke = {
-                'name': poke.poke_id,
-                'base_experience': poke.base_xp,
-                'sprite': poke.sprite,
-                'ATK_base': poke.attack,
-                'HP_base': poke.hp,
-                'DEF_base': poke.defense,
-                'type': poke.poke_type.title(),
-                'ability_1': {
-                    'name': poke.ability,
-                    'description': poke.ability_description
-                }
-            }
-
-    return render_template('battle.html', poke_names=poke_names, all_poke=all_poke)
+    return redirect(url_for('main.battle'))

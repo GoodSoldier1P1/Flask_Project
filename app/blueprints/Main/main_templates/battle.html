@@ -19,7 +19,15 @@
     <div class="opponent">Insert jinja here for random users poke</div>
 
 
-    <div class="you">Insert jinja here for users poke</div>
+    <div class="you">
+        Insert jinja here for users poke
+    
+        <div class="next-button">
+            <form action="{{ url_for('main.next_battle') }}" method="get">
+                <button type="submit">Next Pokemon</button>
+            </form>
+        </div>
+    </div>
 
 
     <div class="user_sprite">
