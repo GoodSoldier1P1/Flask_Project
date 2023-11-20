@@ -1,6 +1,7 @@
 *{
     margin: 0;
     padding: 0;
+    font-family: 'Roboto Mono', monospace;
 }
 
 body{
@@ -20,6 +21,7 @@ body{
       "you you you you"
       "wpace2 wpace2 wpace2 wpace2"; 
     align-items: stretch;
+    text-align: center;
   }
   
   .wspace1 { 

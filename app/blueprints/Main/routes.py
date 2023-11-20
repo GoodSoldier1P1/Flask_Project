@@ -5,6 +5,7 @@ from flask import render_template, request, redirect, url_for, flash
 from app.forms import PokeSelect
 from app.models import Pokemon, db, User, added_to_team
 import random
+from sqlalchemy.sql.expression import func
 
 
 
@@ -190,11 +191,20 @@ def battle():
         join(User.team).\
         filter(User.id == user_id).all()
     
+    # opponent_data = db.session.query(Pokemon).\
+    #     join(User.team).\
+    #     filter()
 
     global current_index
+    print("Current Index: ", current_index)
     current_pokemon = pokemon_data[current_index]
 
-    return render_template('battle.html', all_poke=current_pokemon)
+    random_opponent = db.session.query(Pokemon).\
+        join(added_to_team).filter(added_to_team.c.user_id != user_id).\
+            order_by(func.random()).first()
+    print("Random Opponent: ", random_opponent)
+
+    return render_template('battle.html', all_poke=current_pokemon, opponent=random_opponent)
 
 
 
