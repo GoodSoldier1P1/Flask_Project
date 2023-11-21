@@ -142,7 +142,10 @@ def found_bug():
 @main.route('/team', methods=['GET', 'POST'])
 @login_required
 def user_team():
-    
+
+    poke_stats = Pokemon.query.filter_by()
+    print("Poke Stats: ", poke_stats)
+   
     pokemons = current_user.team.all()
     print(pokemons)
     print('user')
@@ -151,7 +154,7 @@ def user_team():
     print(poke_names)
     print('user')
     
-    return render_template('user_team.html', poke_names=poke_names)
+    return render_template('user_team.html', poke_names=poke_names, poke_stats=poke_stats)
 
 
 @main.route('/delete/<string:poke_name>', methods=['GET', 'POST'])

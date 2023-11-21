@@ -23,12 +23,16 @@ form {
     padding: 15px;
     font-size: xx-large;
     color: rgb(194, 194, 34);
+    text-shadow: 1px 1px 1px black;
+
 }
 
 .form-input{
     border: 1px solid black;
     padding: 5px;
     margin-left: 5%;
+    text-shadow: 1px 0px 1px black;
+
 }
 
 .button{

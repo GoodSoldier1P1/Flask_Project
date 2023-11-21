@@ -44,6 +44,11 @@ form {
     width: auto;
 }
 
+.sprite:hover{
+    transform: scale(1.5);
+    filter: drop-shadow(10px 10px 10px black);
+}
+
 .catch{
     font-weight: 100;
     font-size: larger;
@@ -54,6 +59,7 @@ form {
 .card{
     margin-left: 40%;
     width: 55vh !important;
+    box-shadow: 5px 5px 10px 7px rgba(0,0,0,.8);
 }
 
 .team-btn{
@@ -90,4 +96,14 @@ form {
     text-shadow: 1px 1px 1px black;
     color: #f4d570;
     padding: 5px;
+}
+
+th, td{
+    background-color: lightgray !important;
+
+}
+
+table{
+    box-shadow: 5px 5px 10px 2px rgba(0,0,0,.8);
+
 }
