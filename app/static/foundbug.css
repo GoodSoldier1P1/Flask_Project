@@ -1,10 +1,14 @@
 body{
-    background-color: cornflowerblue;
+    background: #2193b0;
+    background: -webkit-linear-gradient(to right, #6dd5ed, #2193b0);
+    background: linear-gradient(to right, #6dd5ed, #2193b0); 
+    background-position: 10%;
 }
 
 h1{
     text-align: center;
     margin-top: 15vh;
+    text-shadow: 2px 2px 2px black;
 }
 
 button{
@@ -18,4 +22,5 @@ button{
 
 p{
     text-align: center;
+    text-shadow: 2px 2px 2px black;
 }

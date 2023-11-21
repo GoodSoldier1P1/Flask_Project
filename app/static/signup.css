@@ -4,12 +4,13 @@
 }
 
 body{
-    background-image: url(../static/images/Poke_Ball.webp);
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-color: cornflowerblue;
-    background-position-y: 15vh;
-}
+    background: #2193b0;
+    background: -webkit-linear-gradient(to right, #6dd5ed, #2193b0);
+    background: linear-gradient(to right, #6dd5ed, #2193b0); 
+    background-position: 10%;
+    text-shadow: 1px 0px 1px black;
+
+  }
 
 form {
     margin-top: 1vh;
@@ -31,8 +32,10 @@ form {
 }
 
 .button{
-    background-color: rgb(57, 57, 206);
+    background-color: #f4d570;
     padding: 10px;
     border: 1px solid black;
     border-radius: 50%;
+    text-shadow: 1px 0px 1px black;
+
 }

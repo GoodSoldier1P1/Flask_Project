@@ -11,13 +11,18 @@
       <img src="/static/images/efff65ee37b35ea3b4df426ad32b1097.jpg" alt="Logo" width="40" height="34" class="d-inline-block align-text-top pokedex">
       This is where you find your team and start battles others!
     </a>
-    <div>
-      {% if current_user.is_authenticated %}
+    <div class="btn-container">
+      <div class="nav-btn">
+
+        {% if current_user.is_authenticated %}
         {{ username }}
-        <a href="{{ url_for('main.poke_data') }}">Search</a>
-        <a href="{{ url_for('main.battle') }}">Battle!</a>
-        <a href="{{url_for('auth.logout')}}">Logout</a>
-      {% endif %}
+        <ul>          
+          <li><div class="nav-btn"><a href="{{ url_for('main.poke_data') }}" class="nav-link">Search</a></div></li>
+          <li><div class="nav-btn"><a href="{{ url_for('main.battle') }}" class="nav-link">Battle!</a></div></li>
+          <li><div class="nav-btn"><a href="{{url_for('auth.logout')}}" class="nav-link">Logout</a></div></li>
+          {% endif %}
+        </ul>
+        </div>
     </div>
   </div>
 </nav>

@@ -1,4 +1,25 @@
 .navbar{
-    background-color: cornflowerblue !important;
+    background: #2193b0;  
+    background: -webkit-linear-gradient(to right, #6dd5ed, #2193b0); 
+    background: linear-gradient(to right, #6dd5ed, #2193b0);
     background-position: 10%;
+    text-shadow: 1px 1px 1px black;
+}
+
+/* .btn-container{
+    display: flex;
+    flex-direction: row;
+    border: 1px solid black;
+    padding-right: 5%;
+    justify-content: space-between;
+} */
+
+.nav-btn{
+    text-shadow: 1px 1px 1px black;
+    color: #f4d570;
+    padding: 3px;
+    margin-right: 5px;
+    align-self: center;
+    flex-direction: row;
+    list-style-type: none;
 }

@@ -4,17 +4,17 @@
 }
 
 body{
-    background-image: url(../static/images/Poke_Ball.webp);
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-color: cornflowerblue;
-    background-position-y: 15vh;
+    background: #2193b0; 
+background: -webkit-linear-gradient(to right, #6dd5ed, #2193b0);  
+background: linear-gradient(to right, #6dd5ed, #2193b0); 
+
 }
 
 h2{
     margin-top: 5vh;
     text-align: center;
     color: #f4d570;
+    text-shadow: 2px 2px 2px black;
 
 }
 
@@ -22,11 +22,13 @@ h1{
     margin-top: 15vh;
     text-align: center;
     color: #f4d570;
+    text-shadow: 2px 2px 2px black;
 }
 
 form {
     margin-top: 10vh;
     text-align: center;
+    text-shadow: 2px 2px 2px black;
 }
 
 .form-label{
@@ -46,10 +48,11 @@ form {
 }
 
 .button{
-    background-color: rgb(57, 57, 206);
+    background-color: #f4d570;
     padding: 10px;
     border: 1px solid black;
     border-radius: 50%;
+    text-shadow: 1px 1px 1px black;
 }
 
 .signup-btn{

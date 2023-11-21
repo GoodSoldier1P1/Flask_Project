@@ -11,13 +11,12 @@
       <img src="/static/images/efff65ee37b35ea3b4df426ad32b1097.jpg" alt="Logo" width="40" height="34" class="d-inline-block align-text-top pokedex">
       Welcome! Here you will select a Pokemon, then choose whether to add it to your team!
     </a>
-    <div>
+    
       {% if current_user.is_authenticated %}
-        {{ username }}
-        <a href="{{url_for('main.user_team')}}" class="team-link">Your Team </a>
-        <a href="{{url_for('auth.logout')}}" class="logout">Logout </a>
+        <a href="{{url_for('main.user_team')}}" class="nav-link">Your Team </a>
+        <a href="{{url_for('auth.logout')}}" class="nav-link">Logout </a>
+      </div>
         {% endif %}
-    </div>
   </div>
   <div>
     

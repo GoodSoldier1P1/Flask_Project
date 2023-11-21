@@ -1,9 +1,14 @@
 *{
     font-family: 'Roboto Mono', monospace;
+    text-shadow: 1px 0px 1px black;
+
 }
 
 body{
-    background-color: cornflowerblue;
+    background: #2193b0;
+    background: -webkit-linear-gradient(to right, #6dd5ed, #2193b0);
+    background: linear-gradient(to right, #6dd5ed, #2193b0); 
+    background-position: 10%;
 }
 
 .table{
@@ -71,4 +76,18 @@ form {
     border: 1px solid black;
     border-radius: 50%;
     margin-bottom: 5vh;
+}
+
+.navbar{
+    background: #2193b0;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #6dd5ed, #2193b0);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #6dd5ed, #2193b0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background-position: 10%;
+    text-shadow: 1px 1px 1px black;
+}
+
+.nav-link{
+    text-shadow: 1px 1px 1px black;
+    color: #f4d570;
+    padding: 5px;
 }
